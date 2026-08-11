@@ -195,15 +195,46 @@ engine = PipelineEngine.create_default(include_modify=True)
 
 ## 支持的大模型
 
-| 厂商 | 可用模型 | 状态 |
-|---|---|---|
-| DeepSeek | deepseek-chat, deepseek-reasoner | 内置 |
-| Anthropic Claude | claude-sonnet-5, claude-opus-5 | 内置 |
-| OpenAI | gpt-4o, gpt-4-turbo | 内置 |
-| Google Gemini | gemini-2.0-flash, gemini-2.5-pro | 内置 |
-| 自定义 | 任何兼容 OpenAI 接口的服务 | 通过 OpenAI 适配器 + `--api-base` |
+框架本身模型无关——同一套代码、同一个管线、换模型只需要改一个参数。
 
-注册新的模型厂商：
+| 厂商 | 模型 | 免费额度 | 用法 |
+|---|---|---|---|
+| **DeepSeek** | deepseek-chat / deepseek-reasoner | 注册送 500 万 tokens | `--provider deepseek --model deepseek-chat` |
+| **Google Gemini** | gemini-2.0-flash / gemini-2.5-pro | **免费** | `--provider gemini --model gemini-2.0-flash` |
+| **OpenAI** | gpt-4o / gpt-4-turbo | 新用户 $5 | `--provider openai --model gpt-4o` |
+| **Anthropic Claude** | claude-sonnet-5 / claude-opus-5 | 无免费额度 | `--provider claude --model claude-sonnet-5-20251001` |
+
+**零成本方案：DeepSeek + Gemini 都免费，足够日常使用。**
+
+设置 API Key：
+
+```powershell
+# DeepSeek（推荐，便宜好用）
+$env:SCOPE_CODE_API_KEY="sk-你的key"
+
+# 或者 Gemini（免费）
+$env:SCOPE_CODE_API_KEY="你的google-key"
+
+# 或者 OpenAI
+$env:SCOPE_CODE_API_KEY="sk-你的openai-key"
+```
+
+切换模型只需改 `--provider` 和 `--model`，其他全部一样：
+
+```bash
+# DeepSeek
+scope-code analyze --provider deepseek --model deepseek-chat "需求" ./项目/
+
+# Gemini
+scope-code analyze --provider gemini --model gemini-2.0-flash "需求" ./项目/
+
+# OpenAI
+scope-code analyze --provider openai --model gpt-4o "需求" ./项目/
+```
+
+---
+
+注册自己的模型厂商：
 
 ```python
 from scope_code.llm import register_provider
