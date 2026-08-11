@@ -2,6 +2,9 @@
 
 import pytest
 import json
+from pathlib import Path
+
+SAMPLE_PROJECT = str(Path(__file__).parent.parent / "sample_project")
 
 
 @pytest.mark.asyncio
@@ -14,7 +17,7 @@ async def test_plan_hash_in_analyze_scope_output():
     # Step 1: analyze_scope
     result = await server._call_tool("analyze_scope", {
         "requirement": "Add rate limiting to login",
-        "project_path": "e:/spcode/sample_project",
+        "project_path": SAMPLE_PROJECT,
     })
 
     content = json.loads(result["content"][0]["text"])
@@ -44,7 +47,7 @@ async def test_plan_hash_missing_rejected():
     server = MCPServer()
     result = await server._call_tool("analyze_and_execute", {
         "requirement": "Test",
-        "project_path": "e:/spcode/sample_project",
+        "project_path": SAMPLE_PROJECT,
         "dry_run": True,
         # No plan_hash!
     })
@@ -66,13 +69,13 @@ async def test_plan_hash_wrong_rejected():
     # First generate a plan to set _last_plan_hash
     await server._call_tool("analyze_scope", {
         "requirement": "Test requirement",
-        "project_path": "e:/spcode/sample_project",
+        "project_path": SAMPLE_PROJECT,
     })
 
     # Then try execute with wrong hash
     result = await server._call_tool("analyze_and_execute", {
         "requirement": "Test",
-        "project_path": "e:/spcode/sample_project",
+        "project_path": SAMPLE_PROJECT,
         "dry_run": True,
         "plan_hash": "0000000000000000",  # Wrong!
     })
@@ -94,7 +97,7 @@ async def test_plan_hash_correct_executes():
     # Step 1: generate plan
     result1 = await server._call_tool("analyze_scope", {
         "requirement": "Add rate limiting to login",
-        "project_path": "e:/spcode/sample_project",
+        "project_path": SAMPLE_PROJECT,
     })
     content1 = json.loads(result1["content"][0]["text"])
     plan_hash = content1["plan_hash"]
@@ -102,7 +105,7 @@ async def test_plan_hash_correct_executes():
     # Step 2: execute with correct hash
     result2 = await server._call_tool("analyze_and_execute", {
         "requirement": "Add rate limiting to login",
-        "project_path": "e:/spcode/sample_project",
+        "project_path": SAMPLE_PROJECT,
         "dry_run": True,
         "plan_hash": plan_hash,
     })
@@ -136,7 +139,7 @@ async def test_execute_reuses_saved_context():
     # Step 1: analyze_scope
     result1 = await server._call_tool("analyze_scope", {
         "requirement": "Add rate limiting",
-        "project_path": "e:/spcode/sample_project",
+        "project_path": SAMPLE_PROJECT,
     })
     content1 = json.loads(result1["content"][0]["text"])
     plan_hash = content1["plan_hash"]
@@ -153,7 +156,7 @@ async def test_execute_reuses_saved_context():
     # Step 2: execute with correct hash
     result2 = await server._call_tool("analyze_and_execute", {
         "requirement": "Different requirement text!",  # If re-analyzing, this would differ
-        "project_path": "e:/spcode/sample_project",
+        "project_path": SAMPLE_PROJECT,
         "dry_run": True,
         "plan_hash": plan_hash,
     })
