@@ -1,6 +1,6 @@
 # Scope Code
 
-[![Tests](https://github.com/YOUR_USERNAME/scope-code/actions/workflows/test.yml/badge.svg)](https://github.com/YOUR_USERNAME/scope-code/actions/workflows/test.yml)
+[![Tests](https://github.com/lsu159/scope-code/actions/workflows/test.yml/badge.svg)](https://github.com/lsu159/scope-code/actions/workflows/test.yml)
 [![Python](https://img.shields.io/badge/python-3.10%2B-blue)](https://www.python.org/)
 [![License](https://img.shields.io/badge/license-MIT-green)](LICENSE)
 
