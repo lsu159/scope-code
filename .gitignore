@@ -37,3 +37,4 @@ plan2.json
 .pytest_cache/
 .coverage
 htmlcov/
+.claude/

@@ -10,6 +10,16 @@ A Reliable Software Engineering Agent Framework — AI must explain **why, where
 
 ---
 
+## Demo
+
+![Scope Code Demo](demo.gif)
+
+*Two requirements analyzed. Only the relevant module is touched each time — unrelated code is explicitly locked.*
+
+> Regenerate: `python generate_gif.py` (requires Pillow)
+
+---
+
 ## What Makes This Different
 
 ```
