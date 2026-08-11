@@ -1,0 +1,14 @@
+{
+  "mcpServers": {
+    "scope-code": {
+      "command": "python",
+      "args": ["-m", "scope_code.mcp_server"],
+      "cwd": ".",
+      "env": {
+        "SCOPE_CODE_API_KEY": "sk-your-api-key-here",
+        "SCOPE_CODE_PROVIDER": "deepseek",
+        "SCOPE_CODE_MODEL": "deepseek-chat"
+      }
+    }
+  }
+}
